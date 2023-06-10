@@ -68,8 +68,9 @@ const io = new Server({
           console.log("he")
           await db.collection('Cdocs').findOne({ _id: roomId })
           .then(async (oldDoc)=>{
+            console.log(oldDoc)
 
-            if(!oldDoc){
+            if(!oldDoc?.val){
                
                     
                       oldDoc='';
@@ -78,50 +79,54 @@ const io = new Server({
                   else{
                     oldDoc=oldDoc.val
                   }
+
+                  console.log(oldDoc)
           
          
           socket.emit('initial',oldDoc)
             
       })
     })
+    socket.on('update', async (data) => {
+
+          
+        console.log('Received update:', data);
+        await db.collection('Cdocs').findOne({ _id: data.roomId })
+        .then(async (oldDoc)=>{
+
+          if(!oldDoc){
+            //   console.log(oldDoc.val,'olddoc')d
+                  
+                    oldDoc='';
+                 
+                }
+                else{
+                  oldDoc=oldDoc.val
+                }
+                console.log(oldDoc);
+            var newDoc=await replaceString(oldDoc,data.selectionStart,data.selectionEnd,data.key)
+            console.log(newDoc,'newdocc')
+            await db.collection('Cdocs').updateOne(
+                { _id: data.roomId },  // Match the object based on the unique identifier
+                { $set: {val:newDoc} }, // Set the fields with the new data
+                { upsert: true }      // Enable upsert to add if not present
+              );
+              socket.to(data.roomId).emit('updateDoc', newDoc);
+        })
+        
+       
+        //     console.log(doc);
+
+            
+      });
+
+      socket.on('disconnect', () => {
+        console.log('A user disconnected');
+      });
      
       
      
-      socket.on('update', async (data) => {
-          
-          console.log('Received update:', data);
-          await db.collection('Cdocs').findOne({ _id: data.roomId })
-          .then(async (oldDoc)=>{
-
-            if(!oldDoc){
-                // console.log(oldDoc.val,'olddoc')
-                    
-                      oldDoc='';
-                   
-                  }
-                  else{
-                    oldDoc=oldDoc.val
-                  }
-                  console.log(oldDoc);
-              var newDoc=await replaceString(oldDoc,data.selectionStart,data.selectionEnd,data.key)
-              console.log(newDoc,'newdocc')
-              await db.collection('Cdocs').updateOne(
-                  { _id: data.roomId },  // Match the object based on the unique identifier
-                  { $set: {val:newDoc} }, // Set the fields with the new data
-                  { upsert: true }      // Enable upsert to add if not present
-                );
-                socket.to(data.roomId).emit('updateDoc', newDoc);
-          })
-          
-         
-          //     console.log(doc);
-  
-              
-        });
-  
-        socket.on('disconnect', () => {
-          console.log('A user disconnected');
-        });
+     
      
   })
   

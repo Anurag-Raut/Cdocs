@@ -35,6 +35,7 @@ function Sidebar({ setroomId }) {
     }
   }
   useEffect(() => {
+   
     async function fetchData() {
       const docs = await getDocs();
       setList([...docs.data])
@@ -146,6 +147,7 @@ function Sidebar({ setroomId }) {
                   index={index}
                   setroomId={setroomId}
                   removeItemAtIndex={removeItemAtIndex}
+                  id={item._id}
                 />
               );
             })}

@@ -52,7 +52,8 @@ client.connect()
             const { username,id,name } = req.body;
         const database = client.db('Cdocs');
         const collection = database.collection('Cdocs');
-        const obj = { username: username, _id:id,roomname:name };
+        const obj = { username: username, _id:id,roomname:name,val:'' };
+        console.log(obj)
         await collection.insertOne(obj);
         res.status(200).json({ message: 'user added' });
 
