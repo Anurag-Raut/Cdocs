@@ -7,20 +7,18 @@ import Sidebar from './components/sidebar';
 const socket = io('http://localhost:4000');
 
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("hello")
-  socket.emit('ready');
-});
+
+
 
 
 
 function App() {
-  
-
+  const [roomId,setroomId]=useState('room1')
+console.log(roomId);
   return (
    <div className='flex w-[100vw]'>
-    <Sidebar/>
-      <TextBox socket={socket}/>
+    <Sidebar roomId={roomId} setroomId={setroomId} />
+      <TextBox socket={socket} roomId={roomId} setroomId={setroomId} />
    </div>
   )
 }

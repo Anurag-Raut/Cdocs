@@ -1,5 +1,9 @@
 import express from  'express';
 import { Server } from "socket.io";
+import { connect } from 'socket.io-client';
+import dotenv from 'dotenv';
+dotenv.config();
+import  { MongoClient, ServerApiVersion } from 'mongodb';
 
 const io = new Server({
     cors: {
@@ -8,48 +12,129 @@ const io = new Server({
   });
   
   io.listen(4000);
-  var doc='';
-  function replaceString(str, start, end, newStr) {
-    const prefix = str.substring(0, start);
-    const suffix = str.substring(end);
-    console.log(newStr);
-    if(newStr==="Backspace"){
-        // prefix.pop();
-        return prefix.slice(0,-1)+suffix
+  
+  async function connection(){
+    const client = new MongoClient(process.env.URL, {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
+        }
+      });
+      let db;
+  
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    db= await client.db("Cdocs")
+    if(db){
+        console.log("hello")
     }
-    if(newStr==="Enter"){
-        return prefix + '\n' + suffix;
-    }
-    return prefix + newStr + suffix;
+
+    return db;
   }
 
 
-io.on('connection',(socket)=>{
-    // console.log('Hello')
-    socket.on('ready',()=>{
-        console.log(doc)
-        socket.emit('initial',doc)
-    })
+  
+  async function main(db){
+    // console.log(db)
+
     
-    socket.on('hello',()=>{
-        socket.emit('reply','hi')
+    
+
+
+    async function replaceString(str, start, end, newStr) {
+      console.log(str)
+      const prefix = str.substring(0, start);
+      const suffix = str.substring(end);
+      console.log(newStr);
+      if(newStr==="Backspace"){
+          // prefix.pop();
+          return prefix.slice(0,-1)+suffix
+      }
+      if(newStr==="Enter"){
+          return prefix + '\n' + suffix;
+      }
+      return prefix + newStr + suffix;
+    }
+  
+  
+  io.on('connection', (socket)=>{
+      // console.log('Hello')
+      socket.on('joinRoom', async (roomId) => {
+          // Join the specified room
+          console.log(roomId);
+          socket.join(roomId);
+          console.log("he")
+          await db.collection('Cdocs').findOne({ _id: roomId })
+          .then(async (oldDoc)=>{
+
+            if(!oldDoc){
+               
+                    
+                      oldDoc='';
+                   
+                  }
+                  else{
+                    oldDoc=oldDoc.val
+                  }
+          
+         
+          socket.emit('initial',oldDoc)
+            
+      })
     })
-    socket.on('update', (data) => {
-        
-        console.log('Received update:', data);
-        doc=replaceString(doc,data.selectionStart,data.selectionEnd,data.key)
-            // do
-            // doc+=data.key
-            console.log(doc);
-        // Emit the update to all connected clients
-        socket.broadcast.emit('updateDoc', doc);
-      });
+     
+      
+     
+      socket.on('update', async (data) => {
+          
+          console.log('Received update:', data);
+          await db.collection('Cdocs').findOne({ _id: data.roomId })
+          .then(async (oldDoc)=>{
 
-      socket.on('disconnect', () => {
-        console.log('A user disconnected');
-      });
-   
+            if(!oldDoc){
+                // console.log(oldDoc.val,'olddoc')
+                    
+                      oldDoc='';
+                   
+                  }
+                  else{
+                    oldDoc=oldDoc.val
+                  }
+                  console.log(oldDoc);
+              var newDoc=await replaceString(oldDoc,data.selectionStart,data.selectionEnd,data.key)
+              console.log(newDoc,'newdocc')
+              await db.collection('Cdocs').updateOne(
+                  { _id: data.roomId },  // Match the object based on the unique identifier
+                  { $set: {val:newDoc} }, // Set the fields with the new data
+                  { upsert: true }      // Enable upsert to add if not present
+                );
+                socket.to(data.roomId).emit('updateDoc', newDoc);
+          })
+          
+         
+          //     console.log(doc);
+  
+              
+        });
+  
+        socket.on('disconnect', () => {
+          console.log('A user disconnected');
+        });
+     
+  })
+  
+
+
+
+
+  }
+connection().then((db)=>{
+    // console.log(db);
+    main(db)
 })
-
+//  main(db)
+  
 
 
