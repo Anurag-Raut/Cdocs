@@ -16,9 +16,9 @@ const client = new MongoClient(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-app.get('https://cdocs.onrender.com/',(req,res)=>{
-  res.json({helo:"hello"})
-})
+app.get('/', (req, res) => {
+  res.json({ hello: "hello" });
+});
 
 // Connect to MongoDB
 client.connect()
