@@ -21,6 +21,9 @@ const client = new MongoClient(MONGODB_URI, {
 client.connect()
   .then(() => {
     console.log('Connected to MongoDB');
+    app.get('https://cdocs.onrender.com:3000/',(req,res)=>{
+      res.json({helo:"hello"})
+    })
 
     // Define the '/chats' route
     app.post('/getDocs', async (req, res) => {
