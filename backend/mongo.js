@@ -53,6 +53,7 @@ client.connect()
     app.post('/addDoc',async (req,res)=>{
         try
         {
+          console.log('hello')
             console.log('hello')
             const { username,id,name } = req.body;
         const database = client.db('Cdocs');

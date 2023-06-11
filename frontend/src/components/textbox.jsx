@@ -1,75 +1,105 @@
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
+const socket = io('http://localhost:4000');
+
+const debounce = (func, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(null, args);
+    }, delay);
+  };
+};
 
 
 
-
-
-function TextBox({socket,roomId,setroomId}){
-    // useEffect(() => {
-    //     setroomId(idParam)
-    //   }, [location]);
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log(roomId)
-        socket.emit('joinRoom',roomId);
-    })
-
-    // document.addEventListener('DOMContentLoaded', () => {
-        // console.log("hello")
-        useEffect(()=>{
-            // console.log("hello");
-            console.log(roomId,'gwegwegwe')
-            socket.emit('joinRoom',roomId);
-        },[roomId],[])
-        
-    //   });
-  
-
-  socket.on('initial',(data)=>{
-    var editor = document.getElementById('editor');
-    editor.value=data;
-    console.log(data,'ini');
-
-  })
-
-socket.on('updateDoc',(data)=>{
-    // console.log(data);
-  const editor = document.getElementById('editor');
-  
-  editor.value = data;
+socket.on('initial',async (data)=>{
+var editor = document.getElementById('editor');
+editor.value=data;
+// console.log(data,'ini');
 
 })
 
- function handleSelection  (event) {
-    
+
+socket.on('updateDoc',async (data)=>{
+
+function replaceString(str, start, end, newStr) {
+if(!str){
+str=''
+}
+console.log(str,start,end,newStr);
+const prefix = str.substring(0, start);
+const suffix = str.substring(end);
+
+if (newStr === "Backspace") {
+// prefix.pop();
+return prefix.slice(0, -1) + suffix;
+}
+if (newStr === "Enter") {
+return prefix + "\n" + suffix;
+}
+return prefix + newStr + suffix;
+}
+
+// console.log("hemliu pleaeses",data);
+// console.log(data);
+const editor = document.getElementById('editor');
+
+var newstr=   replaceString(editor.value,
+data.selectionStart,
+ data.selectionEnd,
+  data.key)
+editor.value = newstr;
+
+})
+
+
+
+function TextBox({roomId,setroomId}){
+
+  const handleValueChange = debounce(() => {
+    console.log('debouncee');
+    const editor = document?.getElementById('editor');
+    socket.emit('db',{val:editor.value,roomId:roomId})
+  }, 1000); 
+  
+
+
+
+
+  useEffect(()=>{
+    // console.log("hello");
+    // console.log(roomId,'gwegwegwe')
+    socket.emit('joinRoom',roomId);
+},[roomId],[])
+// editor.addEventListener('input', handleValueChange);
+function handleSelection  (event) {
+
 
   const editor = document.getElementById('editor');
+  editor.addEventListener('input', handleValueChange);
   if(event.key.length>=2 && event.key!=='Backspace' && event.key!=="Enter"){
-    return;
+  return;
   }
-
+  
   const obj={
-    selectionStart : editor.selectionStart,
-    selectionEnd : editor.selectionEnd,
-    key:event.key,
-    roomId:roomId,
-    
+  selectionStart : editor.selectionStart,
+  selectionEnd : editor.selectionEnd,
+  key:event.key,
+  roomId:roomId,
+  
   }
-  console.log(obj)
+  
   socket.emit('update',obj)
-
   
-
-
   
-}
-function CursorPos(event){
-    event.preventDefault()
-    const textarea = document.getElementById("editor");
-const cursorPosition = textarea.selectionStart;
-// console.log("Cursor position:", cursorPosition);
-   }
-
+  
+  
+  
+  }
+  
+  
  
 
   return (
