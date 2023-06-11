@@ -23,7 +23,7 @@ const io = new Server({
     cors: {
       origin: "https://cdocs.onrender.com",
       methods: ["GET", "POST"],
-      allowedHeaders: ["my-custom-header"],
+      
       credentials: true
     }
   });
