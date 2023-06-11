@@ -1,8 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { MongoClient } from 'mongodb';
-import dotenv from 'dotenv'
-import cors from 'cors';
+const express = require('express');
+const bodyParser = require('body-parser');
+const { MongoClient } = require('mongodb');
+const dotenv = require('dotenv')
+const cors = require('cors');
 dotenv.config();
 const app = express();
 app.use(bodyParser.json());

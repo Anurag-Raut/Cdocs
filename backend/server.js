@@ -1,9 +1,9 @@
-import express from  'express';
-import { Server } from "socket.io";
-import { connect } from 'socket.io-client';
-import dotenv from 'dotenv';
+const express =  require('express');
+const { Server } = require("socket.io");
+
+const dotenv =require('dotenv');
 dotenv.config();
-import  { MongoClient, ServerApiVersion } from 'mongodb';
+const  { MongoClient, ServerApiVersion } = require('mongodb');
 
 const io = new Server({
     cors: {
