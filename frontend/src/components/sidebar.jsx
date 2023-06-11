@@ -3,7 +3,7 @@ import SideComp from "./sideElement";
 import axios from 'axios';
 import { nanoid } from 'nanoid'
 import { generateFromEmail, generateUsername } from "unique-username-generator";
-
+var url='https://cdocs.onrender.com/'
 const randomusername = generateUsername("-");
 function Sidebar({ setroomId }) {
     const [username,setUserName]=useState(randomusername);
@@ -11,7 +11,7 @@ function Sidebar({ setroomId }) {
   console.log(list);
   async function getDocs() {
     try {
-      const res = await axios.post('http://localhost:3000/getDocs', {
+      const res = await axios.post('https://cdocs.onrender.com/getDocs', {
        username: username ,
       });
       console.log(res);
@@ -23,7 +23,7 @@ function Sidebar({ setroomId }) {
   }
   async function delDoc(id) {
     try {
-      const res = await axios.post('http://localhost:3000/deleteDoc', {
+      const res = await axios.post('https://cdocs.onrender.com/deleteDoc', {
        username: username ,
        id:id,
       });
@@ -50,7 +50,7 @@ function Sidebar({ setroomId }) {
     let input1 = document.getElementById("roon-name");
     try {
       
-        await axios.post('http://localhost:3000/addDoc', {
+        await axios.post('https://cdocs.onrender.com/addDoc', {
           username: username,
           id: nanoid(),
           name: input1.value
