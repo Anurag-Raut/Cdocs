@@ -102,7 +102,6 @@ function handleSelection  (event) {
   
   }
   // var editor = 
-  document?.getElementById('editor')?.addEventListener('keydown',(event)=>handleSelection(event))
   
   
   
@@ -112,7 +111,7 @@ function handleSelection  (event) {
    <div className='flex w-[75vw]'  >
   
    
-    <textarea  id="editor" rows="4" className="block resize-none p-2.5 w-full h-[100vh] text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your content here..."></textarea>
+    <textarea onKeyDown={(e)=>{handleSelection(e)}} id="editor" rows="4" className="block resize-none p-2.5 w-full h-[100vh] text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your content here..."></textarea>
 
    </div>
   )
