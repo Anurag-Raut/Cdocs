@@ -16,14 +16,16 @@ const client = new MongoClient(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+app.get('https://cdocs.onrender.com/',(req,res)=>{
+  res.json({helo:"hello"})
+})
 
 // Connect to MongoDB
 client.connect()
   .then(() => {
+    console.log('hemlu')
     console.log('Connected to MongoDB');
-    app.get('https://cdocs.onrender.com/',(req,res)=>{
-      res.json({helo:"hello"})
-    })
+   
 
     // Define the '/chats' route
     app.post('/getDocs', async (req, res) => {
