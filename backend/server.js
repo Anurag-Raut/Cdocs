@@ -1,6 +1,7 @@
 const express =  require('express');
 const { Server } = require("socket.io");
-
+const app=express();
+const httpServer = require("http").createServer(app);
 const dotenv =require('dotenv');
 dotenv.config();
 const  { MongoClient, ServerApiVersion } = require('mongodb');
@@ -11,7 +12,21 @@ const io = new Server({
     }
   });
   
-  io.listen(4000);
+  io.listen(5000, { 
+    path: "/socket.io",
+    serveClient: false,
+    cookie: false,
+    // ...
+  });
+
+  io.attach(httpServer, {
+    cors: {
+      origin: "https://cdocs.onrender.com",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+    }
+  });
   
   async function connection(){
     const client = new MongoClient(process.env.URL, {
@@ -33,7 +48,9 @@ const io = new Server({
 
     return db;
   }
-
+  httpServer.listen(4000, () => {
+    console.log("Server is running on port 4000");
+  });
 
   
   async function main(db){
