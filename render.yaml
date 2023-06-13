@@ -3,5 +3,5 @@ services:
     name: cdocs-backend-1
     runtime: image
     image:
-      url: docker.io/anurag86/cdocs-mongo-server:1.0
+      url: anurag86/cdocs-mongo-server:1.0
       
