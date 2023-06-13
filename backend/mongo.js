@@ -8,10 +8,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors())
 
-// Assuming you have a MongoDB connection URL
+
 const MONGODB_URI = process.env.URL
 
-// Create a new MongoClient instance
+
 const client = new MongoClient(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -20,14 +20,13 @@ app.get('/', (req, res) => {
   res.json({ hello: "hello" });
 });
 
-// Connect to MongoDB
+
 client.connect()
   .then(() => {
     console.log('hemlu')
     console.log('Connected to MongoDB');
    
 
-    // Define the '/chats' route
     app.post('/getDocs', async (req, res) => {
       try {
         const { username } = req.body;
@@ -38,7 +37,7 @@ client.connect()
         }
         console.log('hello');
 
-        // Get the database and collection
+     
         const database = client.db('Cdocs');
         const collection = database.collection('Cdocs');
 
@@ -77,7 +76,7 @@ client.connect()
           const { id,username } = req.body;
           console.log(id,username);
   
-          // Get the database and collection
+   
           const database = client.db('Cdocs');
           const collection = database.collection('Cdocs');
   
@@ -98,7 +97,7 @@ client.connect()
       });
   
 
-    // Start the server
+
     app.listen(3000, () => {
       console.log('Server started on port 3000');
     });
