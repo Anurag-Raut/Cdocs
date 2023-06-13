@@ -7,7 +7,7 @@ services:
     
     # dockerCommand: docker compose up
     image:
-      url: docker.io/my-name/my-image:latest
+      url: docker.io/anurag86/cdocs-mongo-server:1.0
 
 
 
