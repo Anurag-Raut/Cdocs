@@ -3,7 +3,7 @@ services:
     name: cdocs-backend-2
     runtime: image
     image:
-      url: docker.io/anurag86/cdocs-mongo-server
+      url: https://hub.docker.com/repository/docker/anurag86/cdocs-socket-server/
 
     # dockerCommand: docker run 
     # start
