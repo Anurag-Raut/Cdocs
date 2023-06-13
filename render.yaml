@@ -4,7 +4,7 @@ services:
     name: cdocs-backend-1
     runtime: image
     # plan: individual
-    repo: https://github.com/Anurag-Raut/Cdocs.git
+    
     # dockerCommand: docker compose up
     image:
       url: docker.io/my-name/my-image:latest
