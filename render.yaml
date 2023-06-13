@@ -4,4 +4,6 @@ services:
     runtime: image
     image:
       url: docker.io/anurag86/cdocs-mongo-server:1.0
-     
+      creds:
+        fromRegistryCreds:
+          name: anurag86
