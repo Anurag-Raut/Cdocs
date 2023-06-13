@@ -1,6 +1,6 @@
 services: 
   - type: web
-    name: cdocs-backend-1
+    name: cdocs-backend-2
     runtime: docker
     # plan: individual
     repo: https://github.com/Anurag-Raut/Cdocs.git
