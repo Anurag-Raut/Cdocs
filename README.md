@@ -16,3 +16,5 @@ Node  <br/>
 Express  <br/>
 React  <br/>
 Tailwind  <br/>
+Docker  <br/>
+AWS  <br/>
