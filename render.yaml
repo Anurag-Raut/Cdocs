@@ -2,7 +2,6 @@ services:
   - type: web
     name: cdocs-backend-1
     runtime: image
-    runtime: image
     image:
       url: docker.io/anurag86/cdocs-mongo-server:1.0
       creds:
