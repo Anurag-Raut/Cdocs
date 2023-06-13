@@ -1,12 +1,10 @@
 services: 
   - type: web
     name: cdocs-backend-2
-    runtime: image
-    image: 
-      url: anurag86/cdocs-mongo-server
+    runtime: docker
     # plan: individual
-    # repo: https://github.com/Anurag-Raut/Cdocs.git
-    # dockerCommand: docker compose up
+    repo: https://github.com/Anurag-Raut/Cdocs.git
+    dockerCommand: docker compose up
     # start
 
 
