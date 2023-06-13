@@ -1,7 +1,7 @@
 services: 
   - type: web
-    name: cdocs-backend-1
     runtime: image
+    name: cdocs-backend-1
     image:
       url: anurag86/cdocs-mongo-server:1.0
       
