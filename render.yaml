@@ -1,0 +1,13 @@
+services: 
+  - type: web
+    name: cdocs-backend-2
+    runtime: image
+    image:
+      url: https://hub.docker.com/repository/docker/anurag86/cdocs-socket-server/
+      ports:
+      - 3000:3000
+    # dockerCommand: docker run 
+    # start
+
+
+

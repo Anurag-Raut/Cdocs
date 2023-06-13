@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
-const socket = io('https://cdocsocket.onrender.com');
+import dotenv from 'dotenv'
+dotenv.config();
+const socket = io(`http://${import.meta.env.VITE_AWSURL}:4000`);
 
 const debounce = (func, delay) => {
   let timeoutId;
