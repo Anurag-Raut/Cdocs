@@ -3,6 +3,7 @@ services:
     env: node
     name: cdocs-backend-1
     runtime: docker
+    plan: Individual
     repo: https://github.com/Anurag-Raut/Cdocs.git
     dockerCommand: docker compose up
 
