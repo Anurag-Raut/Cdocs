@@ -3,7 +3,7 @@ import SideComp from "./sideElement";
 import axios from 'axios';
 import { nanoid } from 'nanoid'
 import { generateFromEmail, generateUsername } from "unique-username-generator";
-var url='https://cdocs.onrender.com';
+var url='http://localhost:3000';
 const randomusername = generateUsername("-");
 function Sidebar({ setroomId }) {
     const [username,setUserName]=useState(randomusername);

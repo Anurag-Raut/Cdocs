@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
-const socket = io('https://cdocsocket.onrender.com');
+const socket = io('http://localhost:4000');
 
 const debounce = (func, delay) => {
   let timeoutId;
