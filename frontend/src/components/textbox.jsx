@@ -17,7 +17,7 @@ const debounce = (func, delay) => {
 socket.on('initial',async (data)=>{
 var editor = document.getElementById('editor');
 editor.value=data;
-// console.log(data,'ini');
+
 
 })
 
@@ -70,11 +70,10 @@ function TextBox({roomId,setroomId}){
 
 
   useEffect(()=>{
-    // console.log("hello");
-    // console.log(roomId,'gwegwegwe')
+  
     socket.emit('joinRoom',roomId);
 },[roomId],[])
-// editor.addEventListener('input', handleValueChange);
+
 function handleSelection  (event) {
   console.log('hi');
 

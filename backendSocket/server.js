@@ -41,9 +41,7 @@ async function connection() {
   });
   let db;
 
-  // Connect the client to the server	(optional starting in v4.7)
   await client.connect();
-  // Send a ping to confirm a successful connection
   db = await client.db("Cdocs");
   if (db) {
     console.log("hello");
@@ -53,7 +51,6 @@ async function connection() {
 }
 
 async function main(db) {
-  // console.log(db)
 
   async function replaceString(str, start, end, newStr) {
     console.log(str);
@@ -61,7 +58,6 @@ async function main(db) {
     const suffix = str.substring(end);
     console.log(newStr);
     if (newStr === "Backspace") {
-      // prefix.pop();
       return prefix.slice(0, -1) + suffix;
     }
     if (newStr === "Enter") {
@@ -71,13 +67,11 @@ async function main(db) {
   }
 
   io.on("connection", async (socket) => {
-    // console.log('Hello')
     socket.on("joinRoom", async (roomId) => {
-      // Join the specified room
       console.log(roomId);
 
       socket.join(roomId);
-      // console.log("he")
+   
       await db
         .collection("Cdocs")
         .findOne({ _id: roomId })
@@ -97,39 +91,7 @@ async function main(db) {
     });
     socket.on("update", async (data) => {
       console.log("Received update:", data);
-      // async function please(){
-
-      //   await db
-      //   .collection("Cdocs")
-      //   .findOne({ _id: data.roomId })
-      //   .then(async (oldDoc) => {
-      //     console.log(oldDoc.val, "olddoc");
-      //     if (!oldDoc) {
-      //       oldDoc = "";
-      //     } else {
-      //       oldDoc = oldDoc.val;
-      //     }
-      //     console.log(oldDoc);
-      //     var newDoc = await replaceString(
-      //       oldDoc,
-      //       data.selectionStart,
-      //       data.selectionEnd,
-      //       data.key
-      //     );
-      //     console.log(newDoc, "newdocc");
-      //     await db.collection("Cdocs").updateOne(
-      //       { _id: data.roomId }, // Match the object based on the unique identifier
-      //       { $set: { val: newDoc } }, // Set the fields with the new data
-      //       { upsert: true } // Enable upsert to add if not present
-      //     ).then(()=>{
-      //       socket.to(data.roomId).emit("updateDoc", newDoc);
-      //     })
-          
-      //   });
-
-      //   await please()
-
-
+    
       socket.broadcast.to(data.roomId).emit("updateDoc", data);
       // }
 
@@ -140,9 +102,9 @@ async function main(db) {
     });
     socket.on('db',async (data)=>{
           await db.collection("Cdocs").updateOne(
-            { _id: data.roomId }, // Match the object based on the unique identifier
-            { $set: { val: data.val } }, // Set the fields with the new data
-            { upsert: true } // Enable upsert to add if not present
+            { _id: data.roomId }, 
+            { $set: { val: data.val } }, 
+            { upsert: true } 
           )
 
     })
@@ -153,7 +115,7 @@ async function main(db) {
   });
 }
 connection().then((db) => {
-  // console.log(db);
+
   main(db);
 });
-//  main(db)
+

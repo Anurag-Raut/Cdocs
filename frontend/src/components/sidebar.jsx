@@ -48,12 +48,14 @@ function Sidebar({ setroomId }) {
   async function handleSubmit(event) {
     event.preventDefault();
     let input1 = document.getElementById("roon-name");
+    let val=input1.value;
     try {
+      input1.value = "";
       
         await axios.post(`${url}/addDoc`, {
           username: username,
           id: nanoid(),
-          name: input1.value
+          name: val
         }).then(()=>{
             async function fetchData() {
                 const docs = await getDocs();
@@ -61,18 +63,17 @@ function Sidebar({ setroomId }) {
                 console.log(docs.data);
               }
               fetchData();
-              input1.value = "";
+              
         })
        
 
   
        
-        // Handle successful response
+        
       } catch (error) {
         console.error('Error adding document:', error);
-        // Handle error
+      
       }
-    // setList([input1.value, ...list]);
    
   }
 
