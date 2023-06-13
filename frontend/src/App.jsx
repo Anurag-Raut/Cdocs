@@ -3,8 +3,13 @@ import { io } from 'socket.io-client';
 import TextBox from './components/textbox';
 import Sidebar from './components/sidebar';
 import { useLocation } from 'react-router-dom';
+import dotenv from 'dotenv'
+dotenv.config();
 
-const socket = io('http://localhost:4000');
+
+
+
+const socket = io(`http://${import.meta.env.VITE_AWSURL}:4000`);
 
 
 

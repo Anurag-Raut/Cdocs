@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
-const socket = io('http://localhost:4000');
+import dotenv from 'dotenv'
+dotenv.config();
+const socket = io(`http://${import.meta.env.VITE_AWSURL}:4000`);
 
 const debounce = (func, delay) => {
   let timeoutId;
