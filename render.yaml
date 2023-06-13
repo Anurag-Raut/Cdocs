@@ -1,10 +1,13 @@
 services: 
   - type: web
     name: cdocs-backend-2
-    runtime: docker
+    runtime: image
+    ports:
+      - 3000:3000
     image:
       url: docker.io/anurag86/cdocs-mongo-server
-    dockerCommand: docker run 
+
+    # dockerCommand: docker run 
     # start
 
 
