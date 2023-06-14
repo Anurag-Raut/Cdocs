@@ -36,7 +36,7 @@ function Sidebar({ setroomId }) {
       return null;
     }
   }
-  //
+
   useEffect(() => {
    
     async function fetchData() {
