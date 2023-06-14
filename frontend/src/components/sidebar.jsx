@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 import { generateFromEmail, generateUsername } from "unique-username-generator";
 import dotenv from 'dotenv'
 dotenv.config();
-var url=`http://${import.meta.env.VITE_AWSURL}:3000`;
+var url=`https://cdocs-mongo-server.onrender.com`;
 const randomusername = generateUsername("-");
 function Sidebar({ setroomId }) {
     const [username,setUserName]=useState(randomusername);
