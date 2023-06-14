@@ -8,6 +8,18 @@ dotenv.config();
 var url=`https://cdocs-mongo-server.onrender.com`;
 const randomusername = generateUsername("-");
 function Sidebar({ setroomId }) {
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(null, args);
+      }, delay);
+    };
+  };
+  
+
+
     const [username,setUserName]=useState(randomusername);
   const [list, setList] = useState([]);
   console.log(list);
@@ -36,16 +48,17 @@ function Sidebar({ setroomId }) {
       return null;
     }
   }
-
-  useEffect(() => {
-   
-    async function fetchData() {
-      const docs = await getDocs();
-      setList([...docs.data])
-      console.log(docs.data);
-    }
-    fetchData();
-  }, []);
+  async function fetchData() {
+    console.log('deb')
+    const docs = await getDocs();
+    setList([...docs.data])
+    console.log(docs.data);
+  }
+ 
+    
+    
+    
+  
 
 
   async function handleSubmit(event) {
@@ -78,6 +91,14 @@ function Sidebar({ setroomId }) {
       
       }
    
+  }
+  async function handleUsernameChange (e){
+    e.preventDefault();
+    const docs = await getDocs();
+    setList([...docs.data])
+    console.log(docs.data);
+    
+
   }
 
   const removeItemAtIndex = async (index) => {
@@ -138,6 +159,7 @@ function Sidebar({ setroomId }) {
           </ul>
 
           <div>
+            <form action="" onSubmit={(e)=>handleUsernameChange(e)}>
             <label class='text-gray-400'>username  :  <span class='text-white'>{username}</span></label>
             <input
             onChange={(e)=>{setUserName(e.target.value)}}
@@ -147,6 +169,11 @@ function Sidebar({ setroomId }) {
                     placeholder="Enter room name"
                     required
                   />
+
+
+
+            </form>
+            
            
           </div>
         </div>

@@ -77,7 +77,7 @@ function TextBox({roomId,setroomId}){
 },[roomId],[])
 
 function handleSelection  (event) {
-  console.log('hi');
+  
 
 
   const editor = document.getElementById('editor');
@@ -102,7 +102,7 @@ function handleSelection  (event) {
   
   
   }
-  // var editor = 
+
   
   
   
