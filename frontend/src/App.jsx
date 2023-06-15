@@ -9,7 +9,7 @@ dotenv.config();
 
 
 
-const socket = io(`http://${import.meta.env.VITE_AWSURL}:4000`);
+const socket = io(`https://cdocs-socket-server.onrender.com`);
 
 
 

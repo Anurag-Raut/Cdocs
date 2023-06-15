@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
 import dotenv from 'dotenv'
 dotenv.config();
-const socket = io(`http://${import.meta.env.VITE_AWSURL}:4000`);
+const socket = io(`https://cdocs-socket-server.onrender.com`);
 
 const debounce = (func, delay) => {
   let timeoutId;
@@ -77,7 +77,7 @@ function TextBox({roomId,setroomId}){
 },[roomId],[])
 
 function handleSelection  (event) {
-  console.log('hi');
+  
 
 
   const editor = document.getElementById('editor');
@@ -102,7 +102,7 @@ function handleSelection  (event) {
   
   
   }
-  // var editor = 
+
   
   
   
