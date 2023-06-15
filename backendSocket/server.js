@@ -10,7 +10,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 app.use(cors());
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: false,
   },
