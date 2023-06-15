@@ -13,6 +13,7 @@ const io = new Server(httpServer, {
     origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: false,
+    rejectUnauthorized: false,
   },
 });
 
@@ -23,14 +24,6 @@ io.listen(5000, {
   // ...
 });
 
-io.attach(httpServer, {
-  cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"],
-    rejectUnauthorized: false,
-    credentials: false,
-  },
-});
 
 async function connection() {
   httpServer.listen(4000, () => {

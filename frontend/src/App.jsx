@@ -9,7 +9,7 @@ dotenv.config();
 
 
 
-const socket = io(`http://143.244.142.126/socket.io`);
+const socket = io(`http://143.244.142.126`);
 
 
 
