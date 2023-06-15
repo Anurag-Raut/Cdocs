@@ -9,7 +9,7 @@ dotenv.config();
 
 
 
-const socket = io(`http://143.244.142.126`);
+const socket = io(`https://cdocs-anuragraut.site`);
 
 
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { io } from 'socket.io-client';
 import dotenv from 'dotenv'
 dotenv.config();
-const socket = io(`http://143.244.142.126`);
+const socket = io(`https://cdocs-anuragraut.site`);
 
 const debounce = (func, delay) => {
   let timeoutId;
