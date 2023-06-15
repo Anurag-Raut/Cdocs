@@ -25,7 +25,7 @@ io.listen(5000, {
 
 io.attach(httpServer, {
   cors: {
-    origin: true,
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
     rejectUnauthorized: false,
     credentials: false,
