@@ -1,7 +1,7 @@
 version: "3"
 services:
   cdocs-socket-server:
-    image: anurag86/cdocs-socket-server:2.0
+    image: anurag86/cdocs-socket-server:3.0
     ports:
       - 4000:4000
       - 5000:5000
