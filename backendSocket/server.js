@@ -6,20 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
-const io = new Server({
-  cors: {
-    origin: true,
-  },
-});
-
-io.listen(5000, {
-  path: "/socket.io",
-  serveClient: false,
-  cookie: false,
-  // ...
-});
-
-io.attach(httpServer, {
+const io = new Server(httpServer, {
   cors: {
     origin: true,
     methods: ["GET", "POST"],
@@ -66,12 +53,36 @@ async function main(db) {
     return prefix + newStr + suffix;
   }
 
+  const router = express.Router();
+
+  router.post("/update", async (req, res) => {
+    try {
+      const { roomId, data } = req.body;
+      console.log("Received update:", data);
+
+      io.to(roomId).emit("updateDoc", data);
+
+      await db.collection("Cdocs").updateOne(
+        { _id: roomId },
+        { $set: { val: data } },
+        { upsert: true }
+      );
+
+      res.status(200).json({ message: "Update sent successfully" });
+    } catch (error) {
+      console.error("Error updating document:", error);
+      res.status(500).json({ error: "An error occurred" });
+    }
+  });
+
+  app.use("/socket", router);
+
   io.on("connection", async (socket) => {
     socket.on("joinRoom", async (roomId) => {
       console.log(roomId);
 
       socket.join(roomId);
-   
+
       await db
         .collection("Cdocs")
         .findOne({ _id: roomId })
@@ -89,33 +100,21 @@ async function main(db) {
           socket.emit("initial", oldDoc);
         });
     });
-    socket.on("update", async (data) => {
-      console.log("Received update:", data);
-    
-      socket.broadcast.to(data.roomId).emit("updateDoc", data);
-      // }
 
-
-   
-
-      //     console.log(doc);
+    socket.on("db", async (data) => {
+      await db.collection("Cdocs").updateOne(
+        { _id: data.roomId },
+        { $set: { val: data.val } },
+        { upsert: true }
+      );
     });
-    socket.on('db',async (data)=>{
-          await db.collection("Cdocs").updateOne(
-            { _id: data.roomId }, 
-            { $set: { val: data.val } }, 
-            { upsert: true } 
-          )
-
-    })
 
     socket.on("disconnect", () => {
       console.log("A user disconnected");
     });
   });
 }
-connection().then((db) => {
 
+connection().then((db) => {
   main(db);
 });
-
