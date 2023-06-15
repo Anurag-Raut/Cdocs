@@ -10,7 +10,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 app.use(cors());
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://cdocs-hu8o.onrender.com",
     methods: ["GET", "POST"],
     credentials: false,
     rejectUnauthorized: false,
