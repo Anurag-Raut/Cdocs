@@ -8,7 +8,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const io = new Server({
   cors: {
-    origin: true,
+    origin: "*",
   },
 });
 
