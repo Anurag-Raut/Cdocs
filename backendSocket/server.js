@@ -3,12 +3,16 @@ const { Server } = require("socket.io");
 const app = express();
 const httpServer = require("http").createServer(app);
 const dotenv = require("dotenv");
+const cors=require('cors')
 dotenv.config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
 
-const io = new Server({
+const { MongoClient, ServerApiVersion } = require("mongodb");
+app.use(cors());
+const io = new Server(httpServer, {
   cors: {
     origin: "*",
+    methods: ["GET", "POST"],
+    credentials: false,
   },
 });
 
