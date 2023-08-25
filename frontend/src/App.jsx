@@ -9,7 +9,7 @@ dotenv.config();
 
 
 
-const socket = io(`https://cdocs-anuragraut.site`);
+const socket = io(`https://cdocs-socket-server.onrender.com`);
 
 
 
